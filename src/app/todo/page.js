@@ -31,6 +31,7 @@ export default function TodoList() {
 
   // 創建新的待辦事項
   const handleAddTodo = () => {
+    
     if (inputValue.trim()) {
       const newTodo = {
         id: Date.now(),
@@ -39,8 +40,10 @@ export default function TodoList() {
         completed: false
       };
       setTodos([...todos, newTodo]);
+      
       setInputValue('');
     }
+
   };
 
   // 刪除待辦事項
@@ -89,6 +92,7 @@ export default function TodoList() {
           placeholder="輸入新的待辦事項..."
           className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+    
         <button 
           onClick={handleAddTodo}
           className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
@@ -108,6 +112,8 @@ export default function TodoList() {
               onChange={() => handleToggleTodo(todo.id)}
               className="w-5 h-5 mr-3 text-blue-500 rounded focus:ring-blue-500"
             />
+            
+
             {editingId === todo.id ? (
               <div className="flex-1 flex gap-2">
                 <input
@@ -121,7 +127,7 @@ export default function TodoList() {
                   onClick={() => handleSaveEdit(todo.id)}
                   className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
                 >
-                  保存
+                  儲存
                 </button>
                 <button
                   onClick={handleCancelEdit}
@@ -158,4 +164,3 @@ export default function TodoList() {
     </div>
   );
 }
-
