@@ -2,15 +2,7 @@
 
 import MobileFrame from '@/component/layout/MobileFrame'
 import Image from 'next/image';
-import q1Up from '@/../public/1.question/q1-up.png';
-import q1Down from '@/../public/1.question/q1-down.png';
-import q2Up from '@/../public/1.question/q2-up.png';
-import q2Down from '@/../public/1.question/q2-down.png';
-import q3Up from '@/../public/1.question/q3-up.png';
-import q3Down from '@/../public/1.question/q3-down.png';
-import blurCircle2 from '@/../public/1.question/blur-circle-2.png';
-import blurCircle3 from '@/../public/1.question/blur-circle-3.png';
-import blurCircle4 from '@/../public/1.question/blur-circle-4.png';
+import forestBg from '@/../public/forest.png';
 import { usePsyStore, useQuestionStore } from '@/app/store/store'
 
 export default function QuestionPage({questionIndex, nextStep}) {
@@ -18,58 +10,39 @@ export default function QuestionPage({questionIndex, nextStep}) {
   const questionData = useQuestionStore((state) => state);
   const psyData = usePsyStore((state) => state);
 
-  // 問題數據
+  // 森林系問題數據  
   const questions = [
     {
-      title: "麵包師傅要你「靜置 30 分鐘」，你會怎麼做？",
+      emoji: "🍃",
+      title: "你最嚮往什麼樣的生活環境？",
+      description: "如果你可以選擇住在森林裡的一個角落，那會是什麼模樣呢？想像一下你每天醒來看到的景色、聽見的聲音，那裡會讓你感到最自在和安心。",
       options: [
-        { title: "乖乖待著，然後偷偷膨漲三倍大", value: 1 },
-        { title: "等個屁！我已經開始發酵狂飆了！", value: 3 },
-        { title: "發...什麼？忘記了...睡著了...", value: 5 }
+        { title: "一片陽光灑落、總有笑聲的大樹草地 🌞", value: 1 },
+        { title: "一條靜靜流動的小溪邊，微風吹拂 🍃", value: 3 },
+        { title: "被可愛蘑菇和野花圍繞的溫暖洞穴 🌸", value: 5 }
       ]
     },
     {
-      title: "當你被放進烤箱時，溫度突然升高，你的反應是？",
+      emoji: "🌊",
+      title: "當你收到一個朋友的邀請，要一起參加熱鬧的聚會時，你的反應是？",
+      description: "有位朋友傳訊邀你參加週末的森林派對，會有許多熟人與美食。想像當下的你正在休息或做自己喜歡的事，你會怎麼回應這份邀請？",
       options: [
-        { title: "啊啊啊啊啊！（冒泡炸裂）", value: 1 },
-        { title: "熱熱熱快翻面！我要烤出脆脆皮皮！", value: 3 },
-        { title: "已經放棄掙扎，來吧命運...", value: 5 }
+        { title: "馬上答應，感覺好期待，可以和大家相聚最棒了！", value: 1 },
+        { title: "猶豫一下，想看看自己當天的狀態再決定", value: 3 },
+        { title: "可能會禮貌地婉拒，覺得在家自己待著也很好", value: 5 }
       ]
     },
     {
-      title: "如果你被顧客挑選時被放回去了，你會？",
+      emoji: "📚",
+      title: "你覺得什麼活動最能讓你感到快樂又充實？",
+      description: "每個人放鬆的方式都不一樣。有些人喜歡熱鬧的互動，有些人愛上靜態的小嗜好，也有人在充滿新鮮感的事情中找到樂趣。對你來說，什麼活動最像是「你的日常能量補充包」呢？",
       options: [
-        { title: "立刻乾癟五公分，氣到扁掉", value: 1 },
-        { title: "更用力散發麵包香，讓他後悔！", value: 3 },
-        { title: "裝死，假裝自己是牛角麵包", value: 5 }
+        { title: "一起烤棉花糖、講故事、唱歌的森林聚會 🎶", value: 1 },
+        { title: "在草地上閱讀一本書或靜靜畫畫 🎨", value: 3 },
+        { title: "收集可愛的小石頭、野花，裝飾自己的秘密基地 🪺", value: 5 }
       ]
     }
   ];
-
-  // 根據 questionIndex 選擇對應的圖片
-  const getImages = () => {
-    if (questionIndex == 0) {
-      return {
-        up: q1Up,
-        down: q1Down,
-        circle: blurCircle2
-      };
-    } else if (questionIndex == 1) {
-      return {
-        up: q2Up,
-        down: q2Down,
-        circle: blurCircle3
-      };
-    } else {
-      return {
-        up: q3Up,
-        down: q3Down,
-        circle: blurCircle4
-      };
-    }
-  };
-
-  const images = getImages();
 
   const clickAnswer = function(option){
     nextStep();
@@ -77,254 +50,174 @@ export default function QuestionPage({questionIndex, nextStep}) {
     console.log(option.title, option.value);
   }
 
-  const getMainColor = function(prefix){
-    let colorString = "";
-
-    if(questionIndex == 0){
-      colorString = prefix + "-[#90B62A]";
-    } else if(questionIndex == 1){
-      colorString = prefix + "-[#DD3E3E]";
-    } else {
-      colorString = prefix + "-[#1098EC]";
-    }
-
-    return colorString;
-  }
-
-  // 獲取問題文字樣式
-  const getQuestionTextStyle = () => {
-    if(questionIndex == 0) {
+  // 根據問題獲取不同主題色彩
+  const getThemeColors = () => {
+    if(questionIndex === 0) {
       return {
-        color: 'text-[#6B8A2A]',
-        size: 'text-xl',
-        weight: 'font-bold',
-        spacing: 'tracking-wide'
+        primary: '#4ADE80', // 綠色 - 自然環境
+        secondary: '#22C55E',
+        light: '#DCFCE7',
+        gradient: 'from-emerald-100 via-green-50 to-lime-100',
+        overlay: 'from-emerald-200/40 via-green-100/30 to-lime-200/50',
+        particle: 'bg-emerald-400/70',
+        glow: 'bg-green-400/60',
+        ring: 'border-emerald-400/40',
+        buttonBg: 'bg-emerald-500',
+        buttonShadow: 'shadow-[0px_4px_0px_1px_#10B981]',
+        buttonHover: 'hover:bg-emerald-400',
+        textColor: 'text-emerald-800',
+        qBg: 'bg-emerald-50',
+        qBorder: 'border-emerald-400',
+        qText: 'text-emerald-700'
       };
-    } else if(questionIndex == 1) {
+    } else if(questionIndex === 1) {
       return {
-        color: 'text-[#B83333]',
-        size: 'text-lg',
-        weight: 'font-extrabold',
-        spacing: 'tracking-normal'
-      };
-    } else {
-      return {
-        color: 'text-[#0E7BC7]',
-        size: 'text-xl',
-        weight: 'font-semibold',
-        spacing: 'tracking-wide'
-      };
-    }
-  };
-
-  // 獲取Q標籤樣式
-  const getQNumberStyle = () => {
-    if(questionIndex == 0) {
-      return {
-        bg: 'bg-[#F0F8E1]',
-        border: 'border-[#90B62A]',
-        text: 'text-[#6B8A2A]',
-        shadow: 'shadow-md'
-      };
-    } else if(questionIndex == 1) {
-      return {
-        bg: 'bg-[#FFE8E8]',
-        border: 'border-[#DD3E3E]',
-        text: 'text-[#B83333]',
-        shadow: 'shadow-lg'
+        primary: '#3B82F6', // 藍色 - 社交聚會
+        secondary: '#2563EB',
+        light: '#DBEAFE',
+        gradient: 'from-blue-100 via-sky-50 to-cyan-100',
+        overlay: 'from-blue-200/40 via-sky-100/30 to-cyan-200/50',
+        particle: 'bg-blue-400/70',
+        glow: 'bg-sky-400/60',
+        ring: 'border-blue-400/40',
+        buttonBg: 'bg-blue-500',
+        buttonShadow: 'shadow-[0px_4px_0px_1px_#2563EB]',
+        buttonHover: 'hover:bg-blue-400',
+        textColor: 'text-blue-800',
+        qBg: 'bg-blue-50',
+        qBorder: 'border-blue-400',
+        qText: 'text-blue-700'
       };
     } else {
       return {
-        bg: 'bg-[#E3F2FD]',
-        border: 'border-[#1098EC]',
-        text: 'text-[#0E7BC7]',
-        shadow: 'shadow-md'
+        primary: '#EC4899', // 粉色 - 興趣愛好
+        secondary: '#DB2777',
+        light: '#FCE7F3',
+        gradient: 'from-pink-100 via-rose-50 to-purple-100',
+        overlay: 'from-pink-200/40 via-rose-100/30 to-purple-200/50',
+        particle: 'bg-pink-400/70',
+        glow: 'bg-rose-400/60',
+        ring: 'border-pink-400/40',
+        buttonBg: 'bg-pink-500',
+        buttonShadow: 'shadow-[0px_4px_0px_1px_#DB2777]',
+        buttonHover: 'hover:bg-pink-400',
+        textColor: 'text-pink-800',
+        qBg: 'bg-pink-50',
+        qBorder: 'border-pink-400',
+        qText: 'text-pink-700'
       };
     }
   };
 
-  // 獲取當前問題的按鈕樣式
-  const getButtonStyle = () => {
-    if(questionIndex == 0) {
-      return {
-        bg: 'bg-[#A8C956]',
-        shadow: 'shadow-[0px_4px_0px_1px_#7FA342]',
-        text: 'text-white',
-        hover: 'hover:bg-[#9BC04A]'
-      };
-    } else if(questionIndex == 1) {
-      return {
-        bg: 'bg-[#E55A5A]',
-        shadow: 'shadow-[0px_4px_0px_1px_#C74545]',
-        text: 'text-white',
-        hover: 'hover:bg-[#E04848]'
-      };
-    } else {
-      return {
-        bg: 'bg-[#5BA7F7]',
-        shadow: 'shadow-[0px_4px_0px_1px_#3B8FE8]',
-        text: 'text-white',
-        hover: 'hover:bg-[#4A9AF5]'
-      };
-    }
-  };
-
-  // 獲取背景特效配色
-  const getBackgroundEffects = () => {
-    if(questionIndex == 0) {
-      return {
-        gradient: 'bg-gradient-to-br from-[#E8F5C8] via-[#D4E6A1] to-[#B8D456]',
-        overlay: 'bg-gradient-to-tr from-[#F0F8E1]/60 via-[#E8F5C8]/40 to-[#C8E6A0]/70',
-        particleColor: 'bg-[#A8C956]/70',
-        glowColor: 'bg-[#90B62A]/60',
-        ringColor: 'border-[#90B62A]/50',
-        accentGlow: 'bg-[#7FA342]/80'
-      };
-    } else if(questionIndex == 1) {
-      return {
-        gradient: 'bg-gradient-to-br from-[#FFCDD2] via-[#FF8A80] to-[#E57373]',
-        overlay: 'bg-gradient-to-tr from-[#FFE8E8]/60 via-[#FFCDD2]/40 to-[#FF5722]/70',
-        particleColor: 'bg-[#E55A5A]/70',
-        glowColor: 'bg-[#DD3E3E]/60',
-        ringColor: 'border-[#DD3E3E]/50',
-        accentGlow: 'bg-[#C74545]/80'
-      };
-    } else {
-      return {
-        gradient: 'bg-gradient-to-br from-[#BBDEFB] via-[#64B5F6] to-[#42A5F5]',
-        overlay: 'bg-gradient-to-tr from-[#E3F2FD]/60 via-[#BBDEFB]/40 to-[#2196F3]/70',
-        particleColor: 'bg-[#5BA7F7]/70',
-        glowColor: 'bg-[#1098EC]/60',
-        ringColor: 'border-[#1098EC]/50',
-        accentGlow: 'bg-[#3B8FE8]/80'
-      };
-    }
-  };
-
-  const buttonStyle = getButtonStyle();
-  const questionTextStyle = getQuestionTextStyle();
-  const qNumberStyle = getQNumberStyle();
-  const backgroundEffects = getBackgroundEffects();
+  const theme = getThemeColors();
 
   return (
     <>
       <MobileFrame>
-        {/* 主背景漸變 */}
-        <div className={`absolute inset-0 ${backgroundEffects.gradient}`}></div>
+        {/* 森林背景圖片 */}
+        <div className="absolute inset-0">
+          <Image 
+            src={forestBg} 
+            alt="forest background" 
+            fill
+            className="object-cover opacity-80"
+            priority
+          />
+        </div>
         
-        {/* 動態背景覆蓋層 */}
-        <div className={`absolute inset-0 ${backgroundEffects.overlay} animate-pulse`} style={{animationDuration: '3s'}}></div>
+        {/* 主題色彩覆蓋層 */}
+        <div className={`absolute inset-0 bg-gradient-to-br ${theme.gradient} opacity-70`}></div>
         
-        {/* 額外動態層 */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" style={{animationDuration: '5s', animationDelay: '1s'}}></div>
+        {/* 動態覆蓋層 */}
+        <div className={`absolute inset-0 bg-gradient-to-tl ${theme.overlay} animate-pulse`} style={{animationDuration: '4s'}}></div>
         
-        {/* 浮動光點效果 - 增強版 */}
+        {/* 額外光影效果 */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent animate-pulse" style={{animationDuration: '6s', animationDelay: '1s'}}></div>
+        
+        {/* 森林精靈光點效果 */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className={`absolute w-4 h-4 ${backgroundEffects.particleColor} rounded-full animate-bounce top-1/6 left-1/5 shadow-lg`}></div>
-          <div className={`absolute w-6 h-6 ${backgroundEffects.particleColor} rounded-full animate-bounce top-1/4 right-1/4 shadow-xl`} style={{animationDelay: '0.5s', animationDuration: '2.5s'}}></div>
-          <div className={`absolute w-3 h-3 ${backgroundEffects.particleColor} rounded-full animate-bounce top-3/5 left-1/6 shadow-md`} style={{animationDelay: '1s', animationDuration: '2s'}}></div>
-          <div className={`absolute w-3 h-3 ${backgroundEffects.particleColor} rounded-full animate-bounce top-2/3 right-1/5 shadow-lg`} style={{animationDelay: '1.5s', animationDuration: '2.8s'}}></div>
-          <div className={`absolute w-5 h-5 ${backgroundEffects.particleColor} rounded-full animate-bounce top-4/5 left-2/3 shadow-xl`} style={{animationDelay: '2s', animationDuration: '2.2s'}}></div>
-          <div className={`absolute w-2 h-2 ${backgroundEffects.particleColor} rounded-full animate-bounce top-1/8 right-1/3 shadow-sm`} style={{animationDelay: '2.5s', animationDuration: '3s'}}></div>
-          <div className={`absolute w-4 h-4 ${backgroundEffects.particleColor} rounded-full animate-bounce top-1/12 left-2/5 shadow-lg`} style={{animationDelay: '0.8s', animationDuration: '3.5s'}}></div>
-          <div className={`absolute w-3 h-3 ${backgroundEffects.particleColor} rounded-full animate-bounce top-5/6 right-2/5 shadow-md`} style={{animationDelay: '3s', animationDuration: '2.4s'}}></div>
+          <div className={`absolute w-3 h-3 ${theme.particle} rounded-full animate-bounce top-1/6 left-1/5 shadow-lg`} style={{animationDelay: '0s', animationDuration: '3s'}}></div>
+          <div className={`absolute w-4 h-4 ${theme.particle} rounded-full animate-bounce top-1/4 right-1/4 shadow-xl`} style={{animationDelay: '0.8s', animationDuration: '2.5s'}}></div>
+          <div className={`absolute w-2 h-2 ${theme.particle} rounded-full animate-bounce top-2/5 left-1/8 shadow-md`} style={{animationDelay: '1.5s', animationDuration: '3.2s'}}></div>
+          <div className={`absolute w-3 h-3 ${theme.particle} rounded-full animate-bounce top-3/5 right-1/6 shadow-lg`} style={{animationDelay: '2.2s', animationDuration: '2.8s'}}></div>
+          <div className={`absolute w-4 h-4 ${theme.particle} rounded-full animate-bounce top-4/5 left-2/3 shadow-xl`} style={{animationDelay: '3s', animationDuration: '2.3s'}}></div>
+          <div className={`absolute w-2 h-2 ${theme.particle} rounded-full animate-bounce top-1/12 right-2/5 shadow-sm`} style={{animationDelay: '3.8s', animationDuration: '3.5s'}}></div>
         </div>
 
-        {/* 強化動態光影效果 */}
+        {/* 森林微風效果 */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* 垂直光束 - 增強 */}
-          <div className={`absolute w-2 h-full ${backgroundEffects.glowColor} opacity-60 animate-pulse left-1/5 blur-md`} style={{animationDuration: '4s'}}></div>
-          <div className={`absolute w-2 h-full ${backgroundEffects.glowColor} opacity-40 animate-pulse right-1/4 blur-lg`} style={{animationDelay: '2s', animationDuration: '5s'}}></div>
-          <div className={`absolute w-1 h-full ${backgroundEffects.accentGlow} opacity-80 animate-pulse left-3/4 blur-sm`} style={{animationDelay: '1s', animationDuration: '3s'}}></div>
-          
-          {/* 旋轉光影 - 增強 */}
-          <div className={`absolute top-1/2 left-1/2 w-96 h-2 ${backgroundEffects.glowColor} opacity-40 blur-xl animate-spin origin-center`} 
-               style={{animationDuration: '15s', transform: 'translate(-50%, -50%)'}}></div>
-          <div className={`absolute top-1/2 left-1/2 w-80 h-1 ${backgroundEffects.accentGlow} opacity-60 blur-lg animate-spin origin-center`} 
-               style={{animationDuration: '12s', animationDirection: 'reverse', transform: 'translate(-50%, -50%)'}}></div>
-          
-          {/* 脈動光圈 - 增強 */}
-          <div className={`absolute top-1/4 left-1/6 w-32 h-32 ${backgroundEffects.glowColor} rounded-full opacity-30 animate-ping`} style={{animationDuration: '3s'}}></div>
-          <div className={`absolute bottom-1/4 right-1/6 w-28 h-28 ${backgroundEffects.glowColor} rounded-full opacity-25 animate-ping`} style={{animationDelay: '1.5s', animationDuration: '4s'}}></div>
-          <div className={`absolute top-1/2 left-1/2 w-40 h-40 ${backgroundEffects.accentGlow} rounded-full opacity-20 animate-ping transform -translate-x-1/2 -translate-y-1/2`} style={{animationDelay: '2.5s', animationDuration: '5s'}}></div>
-          
-          {/* 斜向光束掃過效果 - 增強 */}
-          <div className={`absolute -top-20 -left-20 w-40 h-[120%] ${backgroundEffects.glowColor} opacity-20 blur-2xl animate-pulse rotate-12`} style={{animationDuration: '6s'}}></div>
-          <div className={`absolute -bottom-20 -right-20 w-36 h-[110%] ${backgroundEffects.glowColor} opacity-15 blur-xl animate-pulse -rotate-12`} style={{animationDelay: '3s', animationDuration: '7s'}}></div>
-          
-          {/* 新增：放射狀光束 */}
-          <div className={`absolute top-1/2 left-1/2 w-1 h-32 ${backgroundEffects.accentGlow} opacity-50 blur-sm animate-spin origin-bottom`} 
-               style={{animationDuration: '8s', transform: 'translate(-50%, -100%)'}}></div>
-          <div className={`absolute top-1/2 left-1/2 w-1 h-24 ${backgroundEffects.glowColor} opacity-40 blur-sm animate-spin origin-bottom`} 
-               style={{animationDuration: '6s', animationDirection: 'reverse', transform: 'translate(-50%, -100%) rotate(45deg)'}}></div>
+          <div className="absolute w-1 h-20 bg-white/30 opacity-50 animate-pulse left-1/6 top-1/4 blur-sm rounded-full" style={{animationDuration: '5s'}}></div>
+          <div className="absolute w-1 h-16 bg-white/25 opacity-40 animate-pulse right-1/5 top-1/3 blur-sm rounded-full" style={{animationDelay: '2s', animationDuration: '6s'}}></div>
+          <div className="absolute w-1 h-12 bg-white/20 opacity-35 animate-pulse left-2/3 top-2/5 blur-sm rounded-full" style={{animationDelay: '4s', animationDuration: '4.5s'}}></div>
         </div>
-        
-        {/* 原有的模糊圓圈 - 增強效果 */}
-        <Image className='absolute top-0 -translate-y-1/2 z-10 opacity-80' src={images.circle} alt='blur-circle' />
 
-        {/* 旋轉光環效果 - 增強 */}
+        {/* 森林光暈效果 */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className={`absolute top-1/2 left-1/2 w-80 h-80 ${theme.glow} rounded-full opacity-30 blur-3xl animate-pulse transform -translate-x-1/2 -translate-y-1/2`} style={{animationDuration: '6s'}}></div>
+          <div className={`absolute top-1/4 left-1/4 w-32 h-32 ${theme.glow} rounded-full opacity-20 animate-ping`} style={{animationDuration: '4s'}}></div>
+          <div className={`absolute bottom-1/4 right-1/4 w-28 h-28 ${theme.glow} rounded-full opacity-15 animate-ping`} style={{animationDelay: '2s', animationDuration: '5s'}}></div>
+        </div>
+
+        {/* 魔法光環 */}
         <div className="absolute inset-0 flex justify-center items-center pointer-events-none">
-          <div className={`w-96 h-96 border-4 ${backgroundEffects.ringColor} rounded-full animate-spin opacity-50 shadow-2xl`} style={{animationDuration: '20s'}}></div>
-          <div className={`absolute w-80 h-80 border-2 ${backgroundEffects.ringColor} rounded-full animate-spin opacity-40 shadow-xl`} style={{animationDuration: '15s', animationDirection: 'reverse'}}></div>
-          <div className={`absolute w-64 h-64 border-2 ${backgroundEffects.ringColor} rounded-full animate-spin opacity-30 shadow-lg`} style={{animationDuration: '12s'}}></div>
-          <div className={`absolute w-48 h-48 border ${backgroundEffects.ringColor} rounded-full animate-spin opacity-25`} style={{animationDuration: '8s', animationDirection: 'reverse'}}></div>
+          <div className={`w-96 h-96 border-2 ${theme.ring} rounded-full animate-spin opacity-25 shadow-lg`} style={{animationDuration: '25s'}}></div>
+          <div className={`absolute w-80 h-80 border ${theme.ring} rounded-full animate-spin opacity-20 shadow-md`} style={{animationDuration: '20s', animationDirection: 'reverse'}}></div>
+          <div className={`absolute w-64 h-64 border ${theme.ring} rounded-full animate-spin opacity-15`} style={{animationDuration: '15s'}}></div>
         </div>
 
-        {/* 中央爆發光效 */}
-        <div className="absolute inset-0 flex justify-center items-center pointer-events-none">
-          <div className={`w-32 h-32 ${backgroundEffects.accentGlow} rounded-full opacity-20 blur-3xl animate-pulse`} style={{animationDuration: '2s'}}></div>
-          <div className={`absolute w-24 h-24 ${backgroundEffects.glowColor} rounded-full opacity-30 blur-2xl animate-pulse`} style={{animationDelay: '1s', animationDuration: '3s'}}></div>
-        </div>
-
-        <div className='flex flex-col items-center relative z-20 min-h-screen'>
-          {/* 上方可頌圖片 - 固定位置 */}
-          <Image src={images.up} className='w-[88px] drop-shadow-2xl animate-pulse absolute top-16' alt='q-up' style={{animationDuration: '3s'}} />
-
-          {/* 中央內容區域 - 垂直居中 */}
-          <div className="flex flex-col items-center justify-center flex-1 gap-[26px] py-24">
-            {/* Q標籤 - 固定相對位置 */}
-            <div className={`${qNumberStyle.bg} ${qNumberStyle.border} border-4 rounded-full w-[60px] h-[60px]
-            flex justify-center items-center font-bold text-2xl ${qNumberStyle.text} ${qNumberStyle.shadow}
-            backdrop-blur-md border-opacity-80 animate-pulse shadow-2xl`} style={{animationDuration: '2s'}}>
+        <div className='flex flex-col items-center justify-center relative z-20 min-h-screen py-6'>
+          
+          {/* 中央內容區域 - 完全居中 */}
+          <div className="flex flex-col items-center justify-center gap-5 px-6 max-w-xs mx-auto">
+            
+            {/* Q標籤 */}
+            <div className={`${theme.qBg} ${theme.qBorder} border-3 rounded-full w-12 h-12
+            flex justify-center items-center font-bold text-lg ${theme.qText} shadow-lg
+            backdrop-blur-md animate-pulse`} style={{animationDuration: '2s'}}>
               Q{questionIndex+1}
             </div>
             
-            {/* 問題文字 - 固定相對位置 */}
+            {/* 問題標題 */}
             <div 
-              className={`text-center ${questionTextStyle.weight} ${questionTextStyle.size} ${questionTextStyle.color} 
-              ${questionTextStyle.spacing} mb-[30px] px-8 leading-[1.5] max-w-[320px] drop-shadow-lg
-              animate-pulse backdrop-blur-sm bg-white/10 rounded-2xl py-5 border border-white/20`}
-              style={{animationDuration: '4s'}}
+              className={`text-center font-bold text-base ${theme.textColor} 
+              leading-relaxed px-4 drop-shadow-md animate-pulse 
+              backdrop-blur-sm bg-white/20 rounded-2xl py-3 border border-white/30`}
+              style={{animationDuration: '3s'}}
             > 
               {questions[questionIndex].title} 
             </div>
 
-            {/* 選項按鈕區域 - 固定間距和統一高度 */}
-            <div className="flex flex-col gap-4 w-full px-6">
+            {/* 問題描述 */}
+            <div 
+              className={`text-center text-xs ${theme.textColor} opacity-75
+              leading-relaxed px-4 mb-2 backdrop-blur-sm bg-white/15 rounded-xl py-3 
+              border border-white/20`}
+            > 
+              {questions[questionIndex].description} 
+            </div>
+
+            {/* 選項按鈕區域 */}
+            <div className="flex flex-col gap-3 w-full">
               {questions[questionIndex].options.map((option, index) => (
                 <button 
                   key={`option-${index}`}
-                  className={`${buttonStyle.bg} ${buttonStyle.hover} w-full rounded-full ${buttonStyle.text}
-                    py-[20px] px-8 text-[14px] flex justify-center items-center font-bold 
-                    ${buttonStyle.shadow} cursor-pointer hover:translate-y-0.5 transition-all duration-300
-                    leading-[1.2] text-center active:translate-y-1 z-20 relative
-                    h-[72px] items-center justify-center backdrop-blur-md border-2 border-white/30
-                    hover:shadow-2xl hover:scale-[1.05] group overflow-hidden
-                    shadow-2xl hover:border-white/50 animate-pulse`}
+                  className={`${theme.buttonBg} ${theme.buttonHover} w-full rounded-2xl text-white
+                    py-3 px-4 text-xs flex justify-center items-center font-medium 
+                    ${theme.buttonShadow} cursor-pointer hover:translate-y-0.5 transition-all duration-300
+                    leading-relaxed text-center active:translate-y-1 z-20 relative
+                    min-h-[60px] backdrop-blur-md border-2 border-white/30
+                    hover:shadow-2xl hover:scale-[1.02] group overflow-hidden
+                    shadow-xl hover:border-white/50 animate-pulse`}
                   onClick={() => clickAnswer(option)}
-                  type="button"
-                  style={{animationDelay: `${index * 0.2}s`, animationDuration: '3s'}}
+                  type="button" 
+                  style={{animationDelay: `${index * 0.3}s`, animationDuration: '4s'}}
                 >
-                  {/* 按鈕內部強化光效 */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent 
+                  {/* 按鈕內部光效 */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent 
                                 transform -skew-x-12 -translate-x-full group-hover:translate-x-full 
-                                transition-transform duration-800 ease-out"></div>
+                                transition-transform duration-700 ease-out"></div>
                   
-                  {/* 按鈕邊緣光暈 */}
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent 
-                                opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"></div>
-                  
-                  <span className="block relative z-10 drop-shadow-md whitespace-nowrap overflow-hidden text-ellipsis max-w-full px-2">
+                  <span className="block relative z-10 drop-shadow-md text-center leading-relaxed px-2">
                     {option.title}
                   </span>
                 </button>
@@ -332,12 +225,14 @@ export default function QuestionPage({questionIndex, nextStep}) {
             </div>
           </div>
 
-          {/* 下方可頌圖片 - 固定位置 */}
-          <Image src={images.down} className='w-[88px] drop-shadow-2xl animate-pulse absolute bottom-16' alt='q-down' style={{animationDuration: '3s', animationDelay: '1s'}} />
         </div>
 
-        {/* 底部模糊圓圈 - 增強效果 */}
-        <Image className='absolute bottom-0 translate-y-1/2 z-10 opacity-80' src={images.circle} alt='blur-circle' />
+        {/* 四角森林裝飾 */}
+        <div className={`absolute top-6 left-6 w-6 h-6 border-t-2 border-l-2 ${theme.ring} animate-pulse`} style={{animationDuration: '5s'}}></div>
+        <div className={`absolute top-6 right-6 w-6 h-6 border-t-2 border-r-2 ${theme.ring} animate-pulse`} style={{animationDelay: '1.2s', animationDuration: '5s'}}></div>
+        <div className={`absolute bottom-6 left-6 w-6 h-6 border-b-2 border-l-2 ${theme.ring} animate-pulse`} style={{animationDelay: '2.5s', animationDuration: '5s'}}></div>
+        <div className={`absolute bottom-6 right-6 w-6 h-6 border-b-2 border-r-2 ${theme.ring} animate-pulse`} style={{animationDelay: '3.8s', animationDuration: '5s'}}></div>
+
       </MobileFrame>
     </>
   );
