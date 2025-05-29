@@ -25,15 +25,15 @@ export default function QuestionPage({questionIndex, nextStep}) {
       options: [
         { title: "乖乖待著，然後偷偷膨漲三倍大", value: 1 },
         { title: "等個屁！我已經開始發酵狂飆了！", value: 3 },
-        { title: "發...什麼？我忘記了，睡著了...", value: 5 }
+        { title: "發...什麼？忘記了...睡著了...", value: 5 }
       ]
     },
     {
       title: "當你被放進烤箱時，溫度突然升高，你的反應是？",
       options: [
         { title: "啊啊啊啊啊！（冒泡炸裂）", value: 1 },
-        { title: "熱熱快翻面！我要烤出酥脆皮皮！", value: 3 },
-        { title: "已經放棄掙扎，來吧命運……", value: 5 }
+        { title: "熱熱熱快翻面！我要烤出脆脆皮皮！", value: 3 },
+        { title: "已經放棄掙扎，來吧命運...", value: 5 }
       ]
     },
     {
@@ -276,53 +276,64 @@ export default function QuestionPage({questionIndex, nextStep}) {
           <div className={`absolute w-24 h-24 ${backgroundEffects.glowColor} rounded-full opacity-30 blur-2xl animate-pulse`} style={{animationDelay: '1s', animationDuration: '3s'}}></div>
         </div>
 
-        <div className='flex flex-col items-center gap-[26px] relative z-20 min-h-screen justify-center py-8'>
-          <Image src={images.up} className='w-[88px] drop-shadow-2xl animate-pulse absolute top-20' alt='q-up' style={{animationDuration: '3s'}} />
+        <div className='flex flex-col items-center relative z-20 min-h-screen'>
+          {/* 上方可頌圖片 - 固定位置 */}
+          <Image src={images.up} className='w-[88px] drop-shadow-2xl animate-pulse absolute top-16' alt='q-up' style={{animationDuration: '3s'}} />
 
-          <div className={`${qNumberStyle.bg} ${qNumberStyle.border} border-4 rounded-full w-[60px] h-[60px]
-          flex justify-center items-center font-bold text-2xl ${qNumberStyle.text} ${qNumberStyle.shadow}
-          backdrop-blur-md border-opacity-80 animate-pulse shadow-2xl`} style={{animationDuration: '2s'}}>
-            Q{questionIndex+1}
+          {/* 中央內容區域 - 垂直居中 */}
+          <div className="flex flex-col items-center justify-center flex-1 gap-[26px] py-24">
+            {/* Q標籤 - 固定相對位置 */}
+            <div className={`${qNumberStyle.bg} ${qNumberStyle.border} border-4 rounded-full w-[60px] h-[60px]
+            flex justify-center items-center font-bold text-2xl ${qNumberStyle.text} ${qNumberStyle.shadow}
+            backdrop-blur-md border-opacity-80 animate-pulse shadow-2xl`} style={{animationDuration: '2s'}}>
+              Q{questionIndex+1}
+            </div>
+            
+            {/* 問題文字 - 固定相對位置 */}
+            <div 
+              className={`text-center ${questionTextStyle.weight} ${questionTextStyle.size} ${questionTextStyle.color} 
+              ${questionTextStyle.spacing} mb-[30px] px-8 leading-[1.5] max-w-[320px] drop-shadow-lg
+              animate-pulse backdrop-blur-sm bg-white/10 rounded-2xl py-5 border border-white/20`}
+              style={{animationDuration: '4s'}}
+            > 
+              {questions[questionIndex].title} 
+            </div>
+
+            {/* 選項按鈕區域 - 固定間距和統一高度 */}
+            <div className="flex flex-col gap-4 w-full px-6">
+              {questions[questionIndex].options.map((option, index) => (
+                <button 
+                  key={`option-${index}`}
+                  className={`${buttonStyle.bg} ${buttonStyle.hover} w-full rounded-full ${buttonStyle.text}
+                    py-[20px] px-8 text-[14px] flex justify-center items-center font-bold 
+                    ${buttonStyle.shadow} cursor-pointer hover:translate-y-0.5 transition-all duration-300
+                    leading-[1.2] text-center active:translate-y-1 z-20 relative
+                    h-[72px] items-center justify-center backdrop-blur-md border-2 border-white/30
+                    hover:shadow-2xl hover:scale-[1.05] group overflow-hidden
+                    shadow-2xl hover:border-white/50 animate-pulse`}
+                  onClick={() => clickAnswer(option)}
+                  type="button"
+                  style={{animationDelay: `${index * 0.2}s`, animationDuration: '3s'}}
+                >
+                  {/* 按鈕內部強化光效 */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent 
+                                transform -skew-x-12 -translate-x-full group-hover:translate-x-full 
+                                transition-transform duration-800 ease-out"></div>
+                  
+                  {/* 按鈕邊緣光暈 */}
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent 
+                                opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"></div>
+                  
+                  <span className="block relative z-10 drop-shadow-md whitespace-nowrap overflow-hidden text-ellipsis max-w-full px-2">
+                    {option.title}
+                  </span>
+                </button>
+              ))}
+            </div>
           </div>
-          
-          <div 
-            className={`text-center ${questionTextStyle.weight} ${questionTextStyle.size} ${questionTextStyle.color} 
-            ${questionTextStyle.spacing} mb-[30px] px-8 leading-[1.5] max-w-[320px] drop-shadow-lg
-            animate-pulse backdrop-blur-sm bg-white/10 rounded-2xl py-5 border border-white/20`}
-            style={{animationDuration: '4s'}}
-          > 
-            {questions[questionIndex].title} 
-          </div>
 
-          {/* 渲染所有選項按鈕 - 超級增強效果 */}
-          {questions[questionIndex].options.map((option, index) => (
-            <button 
-              key={`option-${index}`}
-              className={`${buttonStyle.bg} ${buttonStyle.hover} w-full rounded-full ${buttonStyle.text}
-                py-[20px] px-8 text-[16px] flex justify-center items-center font-bold 
-                ${buttonStyle.shadow} cursor-pointer hover:translate-y-0.5 transition-all duration-300
-                leading-[1.3] text-center active:translate-y-1 z-20 relative
-                min-h-[64px] items-center justify-center backdrop-blur-md border-2 border-white/30
-                hover:shadow-2xl hover:scale-[1.05] group overflow-hidden
-                shadow-2xl hover:border-white/50 animate-pulse`}
-              onClick={() => clickAnswer(option)}
-              type="button"
-              style={{animationDelay: `${index * 0.2}s`, animationDuration: '3s'}}
-            >
-              {/* 按鈕內部強化光效 */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent 
-                            transform -skew-x-12 -translate-x-full group-hover:translate-x-full 
-                            transition-transform duration-800 ease-out"></div>
-              
-              {/* 按鈕邊緣光暈 */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent 
-                            opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"></div>
-              
-              <span className="block relative z-10 drop-shadow-md">{option.title}</span>
-            </button>
-          ))}
-
-          <Image src={images.down} className='w-[88px] drop-shadow-2xl animate-pulse absolute bottom-20' alt='q-down' style={{animationDuration: '3s', animationDelay: '1s'}} />
+          {/* 下方可頌圖片 - 固定位置 */}
+          <Image src={images.down} className='w-[88px] drop-shadow-2xl animate-pulse absolute bottom-16' alt='q-down' style={{animationDuration: '3s', animationDelay: '1s'}} />
         </div>
 
         {/* 底部模糊圓圈 - 增強效果 */}
