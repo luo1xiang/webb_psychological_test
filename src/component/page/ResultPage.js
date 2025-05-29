@@ -20,7 +20,7 @@ export default function ResultPage() {
     if (psyState.score >= 3 && psyState.score <= 7) {
       return {
         image: foxImg,
-        title: "狐狸｜森林裡的開心果！",
+        title: "狐狸｜森林開心果",
         description: "你聰明、外向又活潑，是大家心中的開心果！你喜歡和朋友一起冒險，總能帶來新點子和正能量。森林裡的夥伴們總是圍繞著你，因為你讓每一天都充滿陽光！",
         bgGradient: "from-orange-200 via-amber-100 to-yellow-200",
         overlay: "from-orange-300/50 via-amber-200/40 to-yellow-300/60",
@@ -35,7 +35,7 @@ export default function ResultPage() {
     } else if (psyState.score >= 8 && psyState.score <= 10) {
       return {
         image: owlImg,
-        title: "貓頭鷹｜夜晚的溫柔智者！",
+        title: "貓頭鷹｜夜晚溫柔智者",
         description: "你冷靜、細心、懂得傾聽，內心充滿想法與洞察力。你喜歡思考、閱讀和獨處的時光，就像一隻守護森林夜晚的貓頭鷹，帶著智慧與溫柔的力量。",
         bgGradient: "from-orange-200 via-pink-100 to-purple-200",
         overlay: "from-orange-300/50 via-pink-200/40 to-purple-300/60",
@@ -50,7 +50,7 @@ export default function ResultPage() {
     } else {
       return {
         image: squirrelImg,
-        title: "松鼠｜細膩的收藏家！",
+        title: "松鼠｜細膩收藏家",
         description: "你擁有溫暖的心和豐富的想像力，喜歡創造與蒐集生活中美好的細節。你是那種會為朋友做手工卡片、在角落種花的人，森林裡最溫柔的一道風景就是你！",
         bgGradient: "from-orange-200 via-green-100 to-teal-200",
         overlay: "from-orange-300/50 via-green-200/40 to-teal-300/60",
